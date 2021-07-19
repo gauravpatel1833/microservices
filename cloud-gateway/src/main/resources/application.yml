@@ -1,0 +1,29 @@
+server:
+  port: 9191
+
+#Spring cloud gateway routes to redirect the url to respective MS url using service registry
+#So we can use this cloud-gateway port 9191 to hit all the MS and it will redirect to corresponding MS
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+        - id: DEPARTMENT-SERVICE
+          uri: lb://DEPARTMENT-SERVICE
+          predicates:
+            - Path=/departments/**
+
+#Register this API gateway service as eureka client in service registry
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost

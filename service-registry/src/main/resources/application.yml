@@ -1,0 +1,9 @@
+server:
+  port: 8761
+
+#Need to disable below as this MS act as server
+#so it don't need to register with eureka so client properties will be false
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
